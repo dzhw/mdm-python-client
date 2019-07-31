@@ -28,11 +28,10 @@ def _get_object(url):
 
 # Dies ist die dev system url, stu-gra2005$ ist die ID der Studie, gesamte API Dokumentation ist unter
 # https://metadatamanagement-test.cfapps.io/swagger-ui.html zu finden
-baseUrl = 'https://metadatamanagement-test.cfapps.io/api'
-
-
+# baseUrl = 'https://metadatamanagement-test.cfapps.io/api'
 # Dies ist die prod system url, stu-gra2005$ ist die ID der Studie
-# baseUrl = 'https://metadata.fdz.dzhw.eu/api'
+baseUrl = 'https://metadata.fdz.dzhw.eu/api'
+
 
 def get_study(study_id, endpoint=baseUrl):
     url = endpoint + '/studies/' + study_id
