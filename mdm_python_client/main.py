@@ -6,44 +6,28 @@ console script. To run this script uncomment the following line in the
 entry_points section in setup.cfg:
 
     console_scripts =
-     fibonacci = mdm_python_client.skeleton:run
+     mdm = mdm_python_client.main:run
 
 Then run `python setup.py install` which will install the command `fibonacci`
 inside your current environment.
 Besides console scripts, the header (i.e. until _logger...) of this file can
 also be used as template for Python modules.
-
-Note: This skeleton file can be safely removed if not needed!
 """
 from __future__ import division, print_function, absolute_import
 
 import argparse
+import datetime
 import sys
 import logging
 
 from mdm_python_client import __version__
+from mdm_python_client.mdm_client import get_study, get_instrument
 
 __author__ = "René Reitmann"
-__copyright__ = "René Reitmann"
-__license__ = "none"
+__copyright__ = "DZHW GmbH"
+__license__ = "AGPL-3.0"
 
 _logger = logging.getLogger(__name__)
-
-
-def fib(n):
-    """Fibonacci example function
-
-    Args:
-      n (int): integer
-
-    Returns:
-      int: n-th Fibonacci number
-    """
-    assert n > 0
-    a, b = 1, 1
-    for i in range(n-1):
-        a, b = b, a+b
-    return a
 
 
 def parse_args(args):
@@ -56,16 +40,30 @@ def parse_args(args):
       :obj:`argparse.Namespace`: command line parameters namespace
     """
     parser = argparse.ArgumentParser(
-        description="Just a Fibonnaci demonstration")
+        description="Just a MDM Rest API Client")
     parser.add_argument(
         '--version',
         action='version',
         version='mdm-python-client {ver}'.format(ver=__version__))
     parser.add_argument(
-        dest="n",
-        help="n-th Fibonacci number",
-        type=int,
-        metavar="INT")
+        '--study',
+        dest="studyId",
+        help="The id of a study of the MDM (e.g. stu-gra2005$)",
+        type=str,
+        metavar="studyId")
+    parser.add_argument(
+        '--instrument',
+        dest="instrumentId",
+        help="The id of an instrument of the MDM (e.g. ins-gra2005-ins1$)",
+        type=str,
+        metavar="instrumentId")
+    parser.add_argument(
+        '--endpoint',
+        dest="endpoint",
+        help="The API endpoint of the MDM (e.g. https://metadata.fdz.dzhw.eu/api)",
+        type=str,
+        metavar="url",
+        default="https://metadata.fdz.dzhw.eu/api")
     parser.add_argument(
         '-v',
         '--verbose',
@@ -102,9 +100,25 @@ def main(args):
     """
     args = parse_args(args)
     setup_logging(args.loglevel)
-    _logger.debug("Starting crazy calculations...")
-    print("The {}-th Fibonacci number is {}".format(args.n, fib(args.n)))
-    _logger.info("Script ends here")
+    _logger.debug("Starting MDM Rest API Client...")
+    if args.studyId is not None:
+        _logger.debug("Fetching study", args.studyId)
+        study = get_study(args.studyId, args.endpoint)
+        if study is not None:
+            print("Studientitel:", study.title.de)
+            print("DOI:", study.doi)
+            print("Veröffentlichungsjahr:", datetime.datetime.strptime(study.release.firstDate,
+                                                               '%Y-%m-%dT%H:%M:%S.%f').strftime("%Y"))
+        else:
+            print("Studie mit id", args.studyId, "nicht gefunden!")
+    if args.instrumentId is not None:
+        _logger.debug("Fetching instrument", args.instrumentId)
+        instrument = get_instrument(args.instrumentId, args.endpoint)
+        if instrument is not None:
+            print("Instrumenttitel:", instrument.title.de)
+        else:
+            print("Instrument mit id ", args.instrumentId, "nicht gefunden!")
+    _logger.info("MDM REST API Client finished")
 
 
 def run():

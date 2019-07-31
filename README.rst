@@ -1,16 +1,17 @@
+.. image:: https://travis-ci.org/dzhw/mdm-python-client.svg?branch=master
+    :target: https://travis-ci.org/dzhw/mdm-python-client
+.. image:: https://img.shields.io/badge/python-2.7-blue
+
 =================
-mdm-python-client
+MDM Python Client
 =================
 
-
-Add a short description here!
-
+This project contains a REST API client for `MDM <https://metadata.fdz.dzhw.eu>`_  (`Metadatamanagement System <https://github.com/dzhw/metadatamanagement>`_) of the Research Data Center of the DZHW.
 
 Description
 ===========
 
-A longer description of your project goes here...
-
+The client can be used to retrieve metadata from the public `REST API <https://metadata.fdz.dzhw.eu/swagger-ui.html>`_ of the MDM_. Currently it uses a cache which gets stale after 24 hours. The module currently depends on Python 2.7 cause it is developed for our CMS which is currently based on this Python version.
 
 Note
 ====
