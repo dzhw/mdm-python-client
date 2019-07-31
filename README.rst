@@ -32,6 +32,7 @@ This will also install a command line version which you can run with
 
 The following snippet demonstrates how to use the client programmatically:
 test_api_endpoint
+
 .. code:: python
 
     from mdm_python_client.mdm_client import get_study
