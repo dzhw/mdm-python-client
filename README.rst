@@ -6,6 +6,9 @@
 .. image:: https://codecov.io/gh/dzhw/mdm-python-client/branch/master/graph/badge.svg
   :target: https://codecov.io/gh/dzhw/mdm-python-client
 
+.. image:: https://readthedocs.org/projects/mdm-python-client/badge/?version=latest
+    :target: https://mdm-python-client.readthedocs.io/en/latest/?badge=latest
+    :alt: Documentation Status
 
 =================
 MDM Python Client
@@ -31,7 +34,6 @@ This will also install a command line version which you can run with
     mdm --help
 
 The following snippet demonstrates how to use the client programmatically:
-test_api_endpoint
 
 .. code:: python
 
@@ -39,8 +41,13 @@ test_api_endpoint
 
     def test_get_study():
         study = get_study("stu-gra2005$")
-        assert "DZHW" in study.title.de
-        assert hasattr(study, 'doi')
+        if study is not None:
+            print("Studientitel:", study.title.de)
+            print("DOI:", study.doi)
+            print("Veröffentlichungsjahr:", datetime.datetime.strptime(study.release.firstDate,
+                                                               '%Y-%m-%dT%H:%M:%S.%f').strftime("%Y"))
+        else:
+            print("Studie mit id", args.studyId, "nicht gefunden!")
 
 Note
 ====
