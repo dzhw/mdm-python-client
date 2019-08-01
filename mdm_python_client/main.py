@@ -17,11 +17,10 @@ from __future__ import division, print_function, absolute_import
 
 import argparse
 import datetime
-import sys
 import logging
+import sys
 
-from mdm_python_client import __version__
-from mdm_python_client.mdm_client import get_study, get_instrument
+from mdm_python_client import __version__, mdm_client
 
 __author__ = "René Reitmann"
 __copyright__ = "DZHW GmbH"
@@ -57,6 +56,42 @@ def parse_args(args):
         help="The id of an instrument of the MDM (e.g. ins-gra2005-ins1$)",
         type=str,
         metavar="instrumentId")
+    parser.add_argument(
+        '--question',
+        dest="questionId",
+        help="The id of an question of the MDM (e.g. que-gra2005-ins1-1.1$)",
+        type=str,
+        metavar="questionId")
+    parser.add_argument(
+        '--survey',
+        dest="surveyId",
+        help="The id of an survey of the MDM (e.g. sur-gra2005-sy1$)",
+        type=str,
+        metavar="surveyId")
+    parser.add_argument(
+        '--dataset',
+        dest="datasetId",
+        help="The id of a dataset of the MDM (e.g. dat-gra2005-ds1$)",
+        type=str,
+        metavar="dataSetId")
+    parser.add_argument(
+        '--variable',
+        dest="variableId",
+        help="The id of a variable of the MDM (e.g. var-gra2005-ds1-astu011a$)",
+        type=str,
+        metavar="variableId")
+    parser.add_argument(
+        '--publication',
+        dest="publicationId",
+        help="The id of a publication of the MDM (e.g. pub-Kratz.2016$)",
+        type=str,
+        metavar="publicationId")
+    parser.add_argument(
+        '--concept',
+        dest="conceptId",
+        help="The id of a concept of the MDM (e.g. con-personality$)",
+        type=str,
+        metavar="conceptId")
     parser.add_argument(
         '--endpoint',
         dest="endpoint",
@@ -103,7 +138,7 @@ def main(args):
     _logger.debug("Starting MDM Rest API Client...")
     if args.studyId is not None:
         _logger.debug("Fetching study", args.studyId)
-        study = get_study(args.studyId, args.endpoint)
+        study = mdm_client.get_study(args.studyId, args.endpoint)
         if study is not None:
             print("Studientitel:", study.title.de)
             print("DOI:", study.doi)
@@ -111,13 +146,55 @@ def main(args):
                                                                '%Y-%m-%dT%H:%M:%S.%f').strftime("%Y"))
         else:
             print("Studie mit id", args.studyId, "nicht gefunden!")
+    if args.surveyId is not None:
+        _logger.debug("Fetching survey", args.surveyId)
+        survey = mdm_client.get_survey(args.surveyId, args.endpoint)
+        if survey is not None:
+            print("Erhebungstitel:", survey.title.de)
+        else:
+            print("Erhebung mit id ", args.surveyId, "nicht gefunden!")
     if args.instrumentId is not None:
         _logger.debug("Fetching instrument", args.instrumentId)
-        instrument = get_instrument(args.instrumentId, args.endpoint)
+        instrument = mdm_client.get_instrument(args.instrumentId, args.endpoint)
         if instrument is not None:
             print("Instrumenttitel:", instrument.title.de)
         else:
             print("Instrument mit id ", args.instrumentId, "nicht gefunden!")
+    if args.questionId is not None:
+        _logger.debug("Fetching question", args.questionId)
+        question = mdm_client.get_question(args.questionId, args.endpoint)
+        if question is not None:
+            print("Fragetext:", question.questionText.de)
+        else:
+            print("Frage mit id ", args.questionId, "nicht gefunden!")
+    if args.datasetId is not None:
+        _logger.debug("Fetching dataset", args.datasetId)
+        dataset = mdm_client.get_dataset(args.datasetId, args.endpoint)
+        if dataset is not None:
+            print("Datensatzbeschreibung:", dataset.description.de)
+        else:
+            print("Datensatz mit id ", args.datasetId, "nicht gefunden!")
+    if args.variableId is not None:
+        _logger.debug("Fetching variable", args.variableId)
+        variable = mdm_client.get_variable(args.variableId, args.endpoint)
+        if variable is not None:
+            print("Variablenlabel:", variable.label.de)
+        else:
+            print("Variable mit id ", args.variableId, "nicht gefunden!")
+    if args.publicationId is not None:
+        _logger.debug("Fetching publication", args.publicationId)
+        publication = mdm_client.get_publication(args.publicationId, args.endpoint)
+        if publication is not None:
+            print("Publikationstitel:", publication.title)
+        else:
+            print("Publikation mit id ", args.publicationId, "nicht gefunden!")
+    if args.conceptId is not None:
+        _logger.debug("Fetching concept", args.conceptId)
+        concept = mdm_client.get_concept(args.conceptId, args.endpoint)
+        if concept is not None:
+            print("Konzepttitel:", concept.title.de)
+        else:
+            print("Konzept mit id ", args.conceptId, "nicht gefunden!")
     _logger.info("MDM REST API Client finished")
 
 

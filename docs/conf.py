@@ -62,7 +62,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'mdm-python-client'
-copyright = u'2019, René Reitmann'
+copyright = u'2019, DZHW GmbH'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
