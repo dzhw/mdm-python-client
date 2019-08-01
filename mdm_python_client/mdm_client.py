@@ -1,12 +1,14 @@
 # coding=utf-8
+import json
+import os
+import tempfile
 from collections import namedtuple
 
 import requests
 import requests_cache
-import json
 
 # use a sqllite DB for caching the MDM calls for 24 hours
-requests_cache.install_cache("mdm_api_cache", expire_after=60 * 60 * 24)
+requests_cache.install_cache(os.path.join(tempfile.gettempdir(), "mdm_client_cache"), expire_after=60 * 60 * 24)
 
 
 def _json_object_hook(d): return namedtuple("X", d.keys())(*d.values())
