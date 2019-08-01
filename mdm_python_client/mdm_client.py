@@ -8,7 +8,11 @@ import requests
 import requests_cache
 
 # use a sqllite DB for caching the MDM calls for 24 hours
-requests_cache.install_cache(os.path.join(tempfile.gettempdir(), "mdm_client_cache"), expire_after=60 * 60 * 24)
+plone_directory = "/usr/local/plone_local_files"
+if os.path.exists(plone_directory):
+    requests_cache.install_cache(os.path.join(plone_directory, "mdm_client_cache"), expire_after=60 * 60 * 24)
+else:
+    requests_cache.install_cache(os.path.join(tempfile.gettempdir(), "mdm_client_cache"), expire_after=60 * 60 * 24)
 
 
 def _json_object_hook(d): return namedtuple("X", d.keys())(*d.values())
