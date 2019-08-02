@@ -19,6 +19,7 @@ def __setup_cache():
             return requests_cache.CachedSession(cache_name=os.path.join(cache_dir, "mdm_client_cache"),
                                                 backend="sqlite", expire_after=60 * 60 * 24, old_data_on_error=True)
     # use memory as fallback
+    print("Going to use in-memory cache!")
     return requests_cache.CachedSession(cache_name="mdm_client_cache",
                                         backend="memory", expire_after=60 * 60 * 24, old_data_on_error=True)
 
