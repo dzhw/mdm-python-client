@@ -25,7 +25,7 @@ You can install the latest version of this client with
 
 .. code:: bash
 
-    pip install git+https://github.com/dzhw/mdm-python-client.git
+    pip install git+https://github.com/dzhw/mdm-python-client.git#v1.0.88
 
 This will also install a command line version which you can run with
 
