@@ -1,5 +1,6 @@
 # coding=utf-8
 import json
+import logging
 import os
 import tempfile
 from collections import namedtuple
@@ -14,7 +15,8 @@ def __setup_cache():
                    os.environ.get("TEMPDIR", None)}
     for cache_dir in directories:
         if cache_dir is not None and os.path.exists(cache_dir) and os.access(cache_dir, os.W_OK):
-            print "Going to write cached requests into file:", os.path.join(cache_dir, "mdm_client_cache.sqlite")
+            print "Going to write cached requests into file:", os.path.join(cache_dir, "mdm_client_cache"
+                                                                                       ".sqlite")
             return requests_cache.CachedSession(cache_name=os.path.join(cache_dir, "mdm_client_cache"),
                                                 backend="sqlite", expire_after=60 * 60 * 24, old_data_on_error=True)
     # use memory as fallback
@@ -23,7 +25,7 @@ def __setup_cache():
                                         backend="memory", expire_after=60 * 60 * 24, old_data_on_error=True)
 
 
-session = __setup_cache()
+_session = __setup_cache()
 
 
 def __json_object_hook(d): return namedtuple("X", d.keys())(*d.values())
@@ -39,7 +41,7 @@ def __get_object(url):
     :param url: The complete url for the GET request.
     :return: A python object created from the response, or None if not found.
     """
-    response = session.get(url)
+    response = _session.get(url)
     # For successful API call, response code will be 200 (OK)
     if response.ok:
         # Loads (Load String) takes a Json file and converts into python data structure (dict)
