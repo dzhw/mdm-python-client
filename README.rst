@@ -49,8 +49,7 @@ The following snippet demonstrates how to use the client programmatically:
         else:
             print("Studie mit id", args.studyId, "nicht gefunden!")
 
-Note
-====
+Having trouble?
+===============
 
-This project has been set up using PyScaffold 2.5.11. For details and usage
-information on PyScaffold see http://pyscaffold.readthedocs.org/.
+Please file an issue in the `issue tracker <https://github.com/dzhw/metadatamanagement/issues>`_ of the `MDM`_.
