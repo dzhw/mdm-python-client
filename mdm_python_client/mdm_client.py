@@ -4,7 +4,6 @@ import os
 import tempfile
 from collections import namedtuple
 
-
 import requests_cache
 
 
@@ -15,11 +14,11 @@ def __setup_cache():
                    os.environ.get("TEMPDIR", None)}
     for cache_dir in directories:
         if cache_dir is not None and os.path.exists(cache_dir) and os.access(cache_dir, os.W_OK):
-            print("Going to write cached requests into file:", os.path.join(cache_dir, "mdm_client_cache.sqlite"))
+            print "Going to write cached requests into file:", os.path.join(cache_dir, "mdm_client_cache.sqlite")
             return requests_cache.CachedSession(cache_name=os.path.join(cache_dir, "mdm_client_cache"),
                                                 backend="sqlite", expire_after=60 * 60 * 24, old_data_on_error=True)
     # use memory as fallback
-    print("Going to use in-memory cache!")
+    print "Going to use in-memory cache!"
     return requests_cache.CachedSession(cache_name="mdm_client_cache",
                                         backend="memory", expire_after=60 * 60 * 24, old_data_on_error=True)
 

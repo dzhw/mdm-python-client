@@ -136,6 +136,7 @@ def main(args):
     args = parse_args(args)
     setup_logging(args.loglevel)
     _logger.debug("Starting MDM Rest API Client...")
+    print("Starting MDM Rest API Client version", __version__)
     if args.studyId is not None:
         _logger.debug("Fetching study", args.studyId)
         study = mdm_client.get_study(args.studyId, args.endpoint)
