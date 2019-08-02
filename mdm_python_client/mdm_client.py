@@ -4,35 +4,46 @@ import os
 import tempfile
 from collections import namedtuple
 
-import requests
+
 import requests_cache
 
+
 # use a sqllite DB for caching the MDM calls for 24 hours
-plone_directory = "/usr/local/plone_local_files"
-if os.path.exists(plone_directory):
-    requests_cache.install_cache(os.path.join(plone_directory, "mdm_client_cache"), expire_after=60 * 60 * 24)
-else:
-    requests_cache.install_cache(os.path.join(tempfile.gettempdir(), "mdm_client_cache"), expire_after=60 * 60 * 24)
+def __setup_cache():
+    # check several directories for write access for the sqllite db
+    directories = {tempfile.gettempdir(), "/usr/local/plone_local_files", os.environ.get("TMPDIR", None),
+                   os.environ.get("TEMPDIR", None)}
+    for cache_dir in directories:
+        if cache_dir is not None and os.path.exists(cache_dir) and os.access(cache_dir, os.W_OK):
+            print("Going to write cached requests into file:", os.path.join(cache_dir, "mdm_client_cache.sqlite"))
+            return requests_cache.CachedSession(cache_name=os.path.join(cache_dir, "mdm_client_cache"),
+                                                backend="sqlite", expire_after=60 * 60 * 24, old_data_on_error=True)
+    # use memory as fallback
+    return requests_cache.CachedSession(cache_name="mdm_client_cache",
+                                        backend="memory", expire_after=60 * 60 * 24, old_data_on_error=True)
 
 
-def _json_object_hook(d): return namedtuple("X", d.keys())(*d.values())
+session = __setup_cache()
 
 
-def _json2obj(data): return json.loads(data, object_hook=_json_object_hook)
+def __json_object_hook(d): return namedtuple("X", d.keys())(*d.values())
 
 
-def _get_object(url):
+def __json2obj(data): return json.loads(data, object_hook=__json_object_hook)
+
+
+def __get_object(url):
     """
     Get the json from the given URL and convert it into a python object.
 
     :param url: The complete url for the GET request.
     :return: A python object created from the response, or None if not found.
     """
-    response = requests.get(url)
+    response = session.get(url)
     # For successful API call, response code will be 200 (OK)
     if response.ok:
         # Loads (Load String) takes a Json file and converts into python data structure (dict)
-        return _json2obj(response.content)
+        return __json2obj(response.content)
     elif response.status_code == 404:
         return None
     else:
@@ -54,7 +65,7 @@ def get_study(study_id, endpoint=baseUrl):
     :return: A python object created from the response, or None if not found.
     """
     url = endpoint + "/studies/" + study_id
-    return _get_object(url)
+    return __get_object(url)
 
 
 def get_survey(survey_id, endpoint=baseUrl):
@@ -67,7 +78,7 @@ def get_survey(survey_id, endpoint=baseUrl):
     :return: A python object created from the response, or None if not found.
     """
     url = endpoint + "/surveys/" + survey_id
-    return _get_object(url)
+    return __get_object(url)
 
 
 def get_instrument(instrument_id, endpoint=baseUrl):
@@ -80,7 +91,7 @@ def get_instrument(instrument_id, endpoint=baseUrl):
     :return: A python object created from the response, or None if not found.
     """
     url = endpoint + "/instruments/" + instrument_id
-    return _get_object(url)
+    return __get_object(url)
 
 
 def get_question(question_id, endpoint=baseUrl):
@@ -93,7 +104,7 @@ def get_question(question_id, endpoint=baseUrl):
     :return: A python object created from the response, or None if not found.
     """
     url = endpoint + "/questions/" + question_id
-    return _get_object(url)
+    return __get_object(url)
 
 
 def get_dataset(dataset_id, endpoint=baseUrl):
@@ -106,7 +117,7 @@ def get_dataset(dataset_id, endpoint=baseUrl):
     :return: A python object created from the response, or None if not found.
     """
     url = endpoint + "/data-sets/" + dataset_id
-    return _get_object(url)
+    return __get_object(url)
 
 
 def get_variable(variable_id, endpoint=baseUrl):
@@ -119,7 +130,7 @@ def get_variable(variable_id, endpoint=baseUrl):
     :return: A python object created from the response, or None if not found.
     """
     url = endpoint + "/variables/" + variable_id
-    return _get_object(url)
+    return __get_object(url)
 
 
 def get_concept(concept_id, endpoint=baseUrl):
@@ -132,7 +143,7 @@ def get_concept(concept_id, endpoint=baseUrl):
     :return: A python object created from the response, or None if not found.
     """
     url = endpoint + "/concepts/" + concept_id
-    return _get_object(url)
+    return __get_object(url)
 
 
 def get_publication(publication_id, endpoint=baseUrl):
@@ -145,4 +156,4 @@ def get_publication(publication_id, endpoint=baseUrl):
     :return: A python object created from the response, or None if not found.
     """
     url = endpoint + "/related-publications/" + publication_id
-    return _get_object(url)
+    return __get_object(url)
