@@ -19,15 +19,21 @@ This project contains a REST API client for `MDM <https://metadata.fdz.dzhw.eu>`
 Description
 ===========
 
-The client can be used to retrieve metadata from the public `REST API <https://metadata.fdz.dzhw.eu/swagger-ui.html>`_ of the MDM_. Currently it uses a cache which gets stale after 24 hours. The module currently depends on Python 2.7 cause it is developed for our CMS which is currently based on this Python version.
+The client can be used to retrieve metadata from the public `REST API <https://metadata.fdz.dzhw.eu/swagger-ui.html>`_ of the MDM_. Currently it uses a cache which gets stale after 24 hours.
 
 You can install the latest version of this client with
 
 .. code:: bash
 
+    pip install git+https://github.com/dzhw/mdm-python-client.git#v1.0.104
+
+The previous version which depends on Python 2.7 can be installed with
+
+.. code:: bash
+
     pip install git+https://github.com/dzhw/mdm-python-client.git#v1.0.88
 
-This will also install a command line version which you can run with
+The installation will also install a command line version which you can run with
 
 .. code:: bash
 
@@ -37,17 +43,17 @@ The following snippet demonstrates how to use the client programmatically:
 
 .. code:: python
 
-    from mdm_python_client.mdm_client import get_study
+    from mdm_python_client.mdm_client import get_datapackage
 
-    def test_get_study():
-        study = get_study("stu-gra2005$")
-        if study is not None:
-            print("Studientitel:", study.title.de)
-            print("DOI:", study.doi)
-            print("Veröffentlichungsjahr:", datetime.datetime.strptime(study.release.firstDate,
+    def test_get_datapackage():
+        datapackage = get_datapackage("stu-gra2005$")
+        if datapackage is not None:
+            print("Pakettitel:", datapackage.title.de)
+            print("DOI:", datapackage.doi)
+            print("Veröffentlichungsjahr:", datetime.datetime.strptime(datapackage.release.firstDate,
                                                                '%Y-%m-%dT%H:%M:%S.%f').strftime("%Y"))
         else:
-            print("Studie mit id", args.studyId, "nicht gefunden!")
+            print("Datenpaket mit id", args.datapackageId, "nicht gefunden!")
 
 Having trouble?
 ===============

@@ -45,11 +45,11 @@ def parse_args(args):
         action='version',
         version='mdm-python-client {ver}'.format(ver=__version__))
     parser.add_argument(
-        '--study',
-        dest="studyId",
-        help="The id of a study of the MDM (e.g. stu-gra2005$)",
+        '--datapackage',
+        dest="datapackageId",
+        help="The id of a data package of the MDM (e.g. stu-gra2005$)",
         type=str,
-        metavar="studyId")
+        metavar="datapackageId")
     parser.add_argument(
         '--instrument',
         dest="instrumentId",
@@ -136,16 +136,16 @@ def main(args):
     args = parse_args(args)
     setup_logging(args.loglevel)
     _logger.debug("Starting MDM Rest API Client...")
-    if args.studyId is not None:
-        _logger.debug("Fetching study %s", args.studyId)
-        study = mdm_client.get_study(args.studyId, args.endpoint)
-        if study is not None:
-            print("Studientitel:", study.title.de)
-            print("DOI:", study.doi)
-            print("Veröffentlichungsjahr:", datetime.datetime.strptime(study.release.firstDate,
-                                                               '%Y-%m-%dT%H:%M:%S.%f').strftime("%Y"))
+    if args.datapackageId is not None:
+        _logger.debug("Fetching data package %s", args.datapackageId)
+        datapackage = mdm_client.get_datapackage(args.datapackageId, args.endpoint)
+        if datapackage is not None:
+            print("Pakettitel:", datapackage.title.de)
+            print("DOI:", datapackage.doi)
+            print("Veröffentlichungsjahr:", datetime.datetime.strptime(datapackage.release.firstDate,
+                                                                       '%Y-%m-%dT%H:%M:%S.%f').strftime("%Y"))
         else:
-            print("Studie mit id", args.studyId, "nicht gefunden!")
+            print("Datenpaket mit id", args.datapackageId, "nicht gefunden!")
     if args.surveyId is not None:
         _logger.debug("Fetching survey %s", args.surveyId)
         survey = mdm_client.get_survey(args.surveyId, args.endpoint)

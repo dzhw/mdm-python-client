@@ -25,3 +25,10 @@ First production release:
 - Client uses persistent cache which is valid for 24 hours.
 - It falls back to in-memory cache if the file for storing the cache cannot be written.
 - In case of any (network) error the cached result (if present) is returned.
+
+Version 1.0.104
+===============
+
+- Change study to data package
+- Fix issues with python 3.7
+- upgrade dependencies

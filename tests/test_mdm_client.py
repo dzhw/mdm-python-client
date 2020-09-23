@@ -1,25 +1,25 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from mdm_python_client.mdm_client import get_study, get_instrument, get_survey, get_question, get_dataset, get_variable, \
+from mdm_python_client.mdm_client import get_datapackage, get_instrument, get_survey, get_question, get_dataset, get_variable, \
     get_publication
 
 __author__ = "René Reitmann"
 __copyright__ = "DZHW GmbH"
 __license__ = "AGPL-3.0"
 
-test_api_endpoint = "https://metadatamanagement-test.cfapps.io/api"
+test_api_endpoint = "https://test.metadata.fdz.dzhw.eu/api"
 
 
-def test_get_study():
-    study = get_study("stu-gra2005$", test_api_endpoint)
-    assert "DZHW" in study.title.de
-    assert hasattr(study, 'doi')
+def test_get_datapackage():
+    datapackage = get_datapackage("stu-gra2005$", test_api_endpoint)
+    assert "DZHW" in datapackage.title.de
+    assert hasattr(datapackage, 'doi')
 
 
-def test_get_study_not_found():
-    study = get_study("hurz", test_api_endpoint)
-    assert study is None
+def test_get_datapackage_not_found():
+    datapackage = get_datapackage("hurz", test_api_endpoint)
+    assert datapackage is None
     
     
 def test_get_survey():
