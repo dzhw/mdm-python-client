@@ -21,7 +21,7 @@ This project contains a REST API client for `MDM <https://metadata.fdz.dzhw.eu>`
 Description
 ===========
 
-The client can be used to retrieve metadata from the public `REST API <https://metadata.fdz.dzhw.eu/swagger-ui.html>`_ of the MDM_. Currently it uses a cache which gets stale after 24 hours.
+The client can be used to retrieve metadata from the public `REST API <https://metadata.fdz.dzhw.eu/api/swagger-ui.html>`_ of the MDM_. Currently it uses a cache which gets stale after 24 hours.
 
 You can install the latest version of this client with
 
