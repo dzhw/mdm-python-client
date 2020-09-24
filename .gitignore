@@ -27,6 +27,7 @@ __pycache__/*
 *.egg-info
 
 # Unittest and coverage
+tests/.coverage
 htmlcov/*
 .coverage
 .tox
