@@ -2,8 +2,8 @@
 
 .. image:: https://img.shields.io/badge/python-3.7-blue
 
-.. image:: https://travis-ci.org/dzhw/mdm-python-client.svg?branch=master
-    :target: https://travis-ci.org/dzhw/mdm-python-client
+.. image:: https://travis-ci.com/dzhw/mdm-python-client.svg?branch=master
+    :target: https://travis-ci.com/dzhw/mdm-python-client
 
 .. image:: https://codecov.io/gh/dzhw/mdm-python-client/branch/master/graph/badge.svg
   :target: https://codecov.io/gh/dzhw/mdm-python-client
