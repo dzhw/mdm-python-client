@@ -1,0 +1,35 @@
+name: Build
+on: push
+jobs:
+  build:
+    strategy:
+      matrix:
+        python:
+          - 2.7
+          - 3.7
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python }}
+    - name: Install Python Dependencies
+      run: pip install -r requirements.txt
+    - name: Install Codecov
+      run: pip install codecov
+    - name: Run the build
+      run: python setup.py develop
+    - name: Run the tests
+      run: python setup.py test
+    - name: Report Codecoverage
+      run: codecov
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+    - name: Report build status via Slack
+      uses: act10ns/slack@v1
+      if: always()
+      with:
+        status: ${{ job.status }}
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

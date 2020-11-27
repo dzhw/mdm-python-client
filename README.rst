@@ -2,8 +2,8 @@
 
 .. image:: https://img.shields.io/badge/python-3.7-blue
 
-.. image:: https://travis-ci.com/dzhw/mdm-python-client.svg?branch=master
-    :target: https://travis-ci.com/dzhw/mdm-python-client
+.. image:: https://github.com/dzhw/mdm-python-client/workflows/Build/badge.svg
+    :target: https://github.com/dzhw/mdm-python-client/actions
 
 .. image:: https://codecov.io/gh/dzhw/mdm-python-client/branch/master/graph/badge.svg
   :target: https://codecov.io/gh/dzhw/mdm-python-client
@@ -27,7 +27,7 @@ You can install the latest version of this client with
 
 .. code:: bash
 
-    pip install git+https://github.com/dzhw/mdm-python-client.git#v1.0.104
+    pip install git+https://github.com/dzhw/mdm-python-client.git#v1.0.106
 
 The previous version which depends on Python 2.7 can be installed with
 

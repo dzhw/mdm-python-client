@@ -32,3 +32,7 @@ Version 1.0.104
 - Change study to data package
 - Fix issues with python 3.7
 - upgrade dependencies
+
+Version 1.0.106
+===============
+- Migrate to Github Actions
