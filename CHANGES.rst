@@ -35,4 +35,6 @@ Version 1.0.104
 
 Version 1.0.106
 ===============
+
 - Migrate to Github Actions
+- Drop Python 2.7 support
