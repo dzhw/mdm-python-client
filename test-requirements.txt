@@ -2,4 +2,5 @@
 # They will be installed automatically when running `python setup.py test`.
 # ATTENTION: Don't remove pytest-cov and pytest as they are needed.
 pytest==4.6.11
-pytest-cov==2.9.0
+pyparsing==2.4.6
+pytest-cov==2.10.1
