@@ -1,5 +1,3 @@
-.. image:: https://img.shields.io/badge/python-2.7-blue
-
 .. image:: https://img.shields.io/badge/python-3.7-blue
 
 .. image:: https://github.com/dzhw/mdm-python-client/workflows/Build/badge.svg
@@ -29,11 +27,11 @@ You can install the latest version of this client with
 
     pip install git+https://github.com/dzhw/mdm-python-client.git#v1.0.106
 
-The previous version which depends on Python 2.7 can be installed with
+The previous last version which supports Python 2.7 can be installed with
 
 .. code:: bash
 
-    pip install git+https://github.com/dzhw/mdm-python-client.git#v1.0.88
+    pip install git+https://github.com/dzhw/mdm-python-client.git#v1.0.104
 
 The installation will also install a command line version which you can run with
 
